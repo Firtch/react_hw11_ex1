@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React, { useState } from "react";
+import TodoList from "./TodoList";
 
-function App() {
+export default function App() {
+  // state = {
+  //   todos: [
+  //     { id: 1, title: "First todo", completed: false },
+  //     { id: 2, title: "Second todo", completed: false },
+  //   ],
+  // };
+
+  const [todos, setTodos] = useState([
+    { id: 1, title: "First todo", completed: false },
+    { id: 2, title: "Second todo", completed: false },
+  ]);
+
+  const [todoTitle, setTodoTitle] = useState("");
+
+  const addTodo = (e) => {
+    if(e.key === "Enter") {
+      setTodos([
+        ...todos, {
+          id: Date.now(),
+          title: todoTitle,
+          completed: false
+        }
+      ]);
+      setTodoTitle("");
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Todo App</h1>
+      <div className="input-field">
+        <input 
+        type="text" 
+        value={todoTitle}
+        onChange={e => setTodoTitle(e.target.value)}
+        onKeyPress={addTodo}
+        />
+        <label>Todo name</label>
+      </div>
+      {/* <TodoList todos={this.state.todos} /> */
+       <TodoList todos={todos} />}
     </div>
   );
 }
-
-export default App;
